@@ -32,3 +32,6 @@ This project is based on the Ray Tracing in One Weekend series of books: [_Ray T
 
 ## Step (final)
 <img src="results/raytracing_step_final.png" width="400"/>
+
+## Step (next 1)
+<img src="results/raytracing_step_next_1.png" width="400"/>
