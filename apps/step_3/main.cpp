@@ -1,8 +1,29 @@
+// MIT License
+
+// Copyright (c) 2021 Florian Eigentler
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <omp.h>
-#define PROJECT_FILE PROJECT".ppm"
+#define PROJECT_FILE PROJECT ".ppm"
 #define PROJECT_IMAGE "convert " PROJECT_FILE " " PROJECT ".png; rm " PROJECT_FILE
 
 #include <raytracing/raytracing.h>
@@ -25,25 +46,30 @@
 //     }
 // }
 
-double hit_sphere(const Point3 &center, const double radius, const Ray &r) {
+double hit_sphere(const Point3 &center, const double radius, const Ray &r)
+{
     Vector3 oc = r.origin() - center;
     auto a = r.direction().length_squared();
     auto half_b = oc.dot(r.direction());
-    auto c = oc.length_squared() - radius*radius;
-    auto discriminant = half_b*half_b - a*c;
-    if (discriminant < 0) {
+    auto c = oc.length_squared() - radius * radius;
+    auto discriminant = half_b * half_b - a * c;
+    if (discriminant < 0)
+    {
         return -1.0;
-    } else {
-        return (-half_b - sqrt(discriminant) ) / a;
+    }
+    else
+    {
+        return (-half_b - sqrt(discriminant)) / a;
     }
 }
 
 Color ray_color(const Ray &r)
 {
-    auto t = hit_sphere(Point3{0,0,-1}, 0.5, r);
-    if (t > 0.0) {
-        Vector3 n = normalize_Vector3(r.at(t) - Vector3{0,0,-1});
-        return 0.5 * Color{n.x()+1, n.y()+1, n.z()+1};
+    auto t = hit_sphere(Point3{0, 0, -1}, 0.5, r);
+    if (t > 0.0)
+    {
+        Vector3 n = normalize_Vector3(r.at(t) - Vector3{0, 0, -1});
+        return 0.5 * Color{n.x() + 1, n.y() + 1, n.z() + 1};
     }
 
     Vector3 unit_direction = normalize_Vector3(r.direction());
@@ -99,7 +125,7 @@ int main(int argc, char const *argv[])
 
     file << "\n";
     file.close();
-    system( PROJECT_IMAGE );
+    system(PROJECT_IMAGE);
 
     // Finalize
     free(pixel);
